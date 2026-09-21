@@ -1,112 +1,66 @@
 /**
  * Interactive Portfolio Logic - Jiya Darshini
- * 1. Background Artwork & Eye Overlay Alignment Engine
- * 2. Real-Time Cursor Eye-Tracking with Smooth Vector Lerp
- * 3. Dreamy Ambient Star Sparkles Overlay
- * 4. Modal Navigation & Interactive UI Controls
+ * 1. Interactive Video Background Crossfading & Scrubbing Engine (Up, Down, Left, Right)
+ * 2. Dreamy Ambient Star Sparkles Overlay
+ * 3. Modal Navigation & Interactive UI Controls
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initBackgroundLayoutAndEyes();
-  initEyeTracking();
+  initVideoEngine();
   initAmbientSparkles();
   initModalsAndNav();
   initCursorGlow();
 });
 
 /* ==========================================================================
-   1. Background Image & Eye Overlay Dynamic Alignment
+   1. Interactive Video Crossfading & Scrubbing Engine
    ========================================================================== */
-function initBackgroundLayoutAndEyes() {
-  const bgImg = document.getElementById('hero-bg-img');
-  const eyeContainer = document.getElementById('eye-container');
-  if (!bgImg || !eyeContainer) return;
+function initVideoEngine() {
+  const vidUp = document.getElementById('vid-up');
+  const vidDown = document.getElementById('vid-down');
+  const vidLeft = document.getElementById('vid-left');
+  const vidRight = document.getElementById('vid-right');
 
-  const NATURAL_W = 2752;
-  const NATURAL_H = 1536;
-  const IMG_RATIO = NATURAL_W / NATURAL_H;
+  const videos = [
+    { el: vidUp, dir: 'up' },
+    { el: vidDown, dir: 'down' },
+    { el: vidLeft, dir: 'left' },
+    { el: vidRight, dir: 'right' }
+  ];
 
-  // Exact percentage bounds of eyes in the 2752x1536 image:
-  // x1=1666, y1=330, width=451, height=256
-  const EYE_LEFT_PCT = 1666 / NATURAL_W; // ~0.60538
-  const EYE_TOP_PCT = 330 / NATURAL_H;   // ~0.21484
-  const EYE_WIDTH_PCT = 451 / NATURAL_W; // ~0.16388
-  const EYE_HEIGHT_PCT = 256 / NATURAL_H;// ~0.16667
+  // Initialize and ensure playback for all videos
+  videos.forEach(({ el }) => {
+    if (!el) return;
+    el.muted = true;
+    el.loop = true;
+    el.playsInline = true;
+    
+    // Start playback when loaded
+    el.addEventListener('loadedmetadata', () => {
+      el.play().catch(() => {});
+    });
+    
+    // Try immediate play
+    el.play().catch(() => {
+      // Autoplay fallback on first user interaction
+      const playOnInteract = () => {
+        el.play().catch(() => {});
+        window.removeEventListener('click', playOnInteract);
+        window.removeEventListener('mousemove', playOnInteract);
+      };
+      window.addEventListener('click', playOnInteract, { once: true });
+      window.addEventListener('mousemove', playOnInteract, { once: true });
+    });
+  });
 
-  function updateLayout() {
-    const containerW = window.innerWidth;
-    const containerH = window.innerHeight;
-    const containerRatio = containerW / containerH;
-
-    let renderW, renderH, renderX, renderY;
-
-    if (containerRatio > IMG_RATIO) {
-      // Viewport is wider than image (ultrawide) -> fit width, crop top/bottom
-      renderW = containerW;
-      renderH = containerW / IMG_RATIO;
-      renderX = 0;
-      renderY = (containerH - renderH) / 2;
-    } else {
-      // Viewport is narrower (standard / mobile / laptop) -> fit height, align right so girl stays in view
-      renderH = containerH;
-      renderW = containerH * IMG_RATIO;
-      renderX = containerW - renderW; // Pin to right side
-      renderY = 0;
-    }
-
-    // Apply exact pixel dimensions and offsets
-    bgImg.style.width = `${renderW}px`;
-    bgImg.style.height = `${renderH}px`;
-    bgImg.style.left = `${renderX}px`;
-    bgImg.style.top = `${renderY}px`;
-
-    // Position eye overlay container precisely over the girl's face
-    const eyeX = renderX + renderW * EYE_LEFT_PCT;
-    const eyeY = renderY + renderH * EYE_TOP_PCT;
-    const eyeW = renderW * EYE_WIDTH_PCT;
-    const eyeH = renderH * EYE_HEIGHT_PCT;
-
-    eyeContainer.style.left = `${eyeX}px`;
-    eyeContainer.style.top = `${eyeY}px`;
-    eyeContainer.style.width = `${eyeW}px`;
-    eyeContainer.style.height = `${eyeH}px`;
-
-    // Store eye center for tracking calculations
-    window._eyeCenterPos = {
-      x: eyeX + eyeW * 0.5,
-      y: eyeY + eyeH * 0.5
-    };
-  }
-
-  window.addEventListener('resize', updateLayout);
-  if (bgImg.complete) {
-    updateLayout();
-  } else {
-    bgImg.addEventListener('load', updateLayout);
-  }
-  updateLayout();
-}
-
-/* ==========================================================================
-   2. Real-Time Eye-Tracking Engine
-   ========================================================================== */
-function initEyeTracking() {
-  const eyeCenter = document.getElementById('eye-center');
-  const eyeUp = document.getElementById('eye-up');
-  const eyeDown = document.getElementById('eye-down');
-  const eyeLeft = document.getElementById('eye-left');
-  const eyeRight = document.getElementById('eye-right');
-
-  if (!eyeCenter || !eyeUp || !eyeDown || !eyeLeft || !eyeRight) return;
-
-  // Target vector (-1 to 1) & current interpolated vector
+  // Gaze target vectors (-1.0 to 1.0)
   let targetX = 0;
   let targetY = 0;
   let currentX = 0;
   let currentY = 0;
 
-  const LERP_FACTOR = 0.12; // Smooth tracking speed
-  const DEADZONE_RADIUS = 0.04;
+  const LERP_FACTOR = 0.14; // Responsive smooth lerp
+  const DEADZONE_RADIUS = 0.05;
 
   const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
@@ -116,12 +70,13 @@ function initEyeTracking() {
     const winW = window.innerWidth;
     const winH = window.innerHeight;
 
-    // Use calculated eye center, fallback to viewport 70% X, 35% Y
-    const origin = window._eyeCenterPos || { x: winW * 0.72, y: winH * 0.35 };
+    // Face origin on right side (~70% X, ~35% Y)
+    const originX = winW * 0.70;
+    const originY = winH * 0.35;
 
-    // Normalized delta relative to eye position
-    let dx = (e.clientX - origin.x) / (winW * 0.45);
-    let dy = (e.clientY - origin.y) / (winH * 0.45);
+    // Normalized offset from face
+    let dx = (e.clientX - originX) / (winW * 0.45);
+    let dy = (e.clientY - originY) / (winH * 0.45);
 
     // Clamp to range [-1.0, 1.0]
     targetX = Math.max(-1.0, Math.min(1.0, dx));
@@ -136,56 +91,46 @@ function initEyeTracking() {
   window.addEventListener('mousemove', onMouseMove, { passive: true });
   document.addEventListener('mouseleave', onMouseLeave);
 
-  // Animation Loop for Smooth Eye Movement
-  function updateEyes() {
-    // Linear Interpolation (Lerp) for smooth natural gaze
+  // Render loop to smoothly crossfade directional video layers
+  function updateVideos() {
     currentX += (targetX - currentX) * LERP_FACTOR;
     currentY += (targetY - currentY) * LERP_FACTOR;
 
-    const distFromCenter = Math.sqrt(currentX * currentX + currentY * currentY);
+    const dist = Math.sqrt(currentX * currentX + currentY * currentY);
 
-    let weightLeft = 0;
-    let weightRight = 0;
     let weightUp = 0;
     let weightDown = 0;
-    let weightCenter = 0;
+    let weightLeft = 0;
+    let weightRight = 0;
 
-    if (distFromCenter < DEADZONE_RADIUS) {
-      weightCenter = 1;
-    } else {
-      weightLeft = currentX < 0 ? Math.min(1, Math.abs(currentX)) : 0;
-      weightRight = currentX > 0 ? Math.min(1, currentX) : 0;
+    if (dist > DEADZONE_RADIUS) {
+      // Calculate directional weights
       weightUp = currentY < 0 ? Math.min(1, Math.abs(currentY)) : 0;
       weightDown = currentY > 0 ? Math.min(1, currentY) : 0;
+      weightLeft = currentX < 0 ? Math.min(1, Math.abs(currentX)) : 0;
+      weightRight = currentX > 0 ? Math.min(1, currentX) : 0;
 
-      const sumDirectional = weightLeft + weightRight + weightUp + weightDown;
-      weightCenter = Math.max(0, 1 - sumDirectional);
-
-      const total = weightLeft + weightRight + weightUp + weightDown + weightCenter;
-      if (total > 0) {
-        weightLeft /= total;
-        weightRight /= total;
-        weightUp /= total;
-        weightDown /= total;
-        weightCenter /= total;
-      }
+      // Soft non-linear curve for natural transition
+      weightUp = Math.pow(weightUp, 1.2);
+      weightDown = Math.pow(weightDown, 1.2);
+      weightLeft = Math.pow(weightLeft, 1.2);
+      weightRight = Math.pow(weightRight, 1.2);
     }
 
-    // Apply opacities to directional eye layers
-    eyeCenter.style.opacity = weightCenter.toFixed(3);
-    eyeUp.style.opacity = weightUp.toFixed(3);
-    eyeDown.style.opacity = weightDown.toFixed(3);
-    eyeLeft.style.opacity = weightLeft.toFixed(3);
-    eyeRight.style.opacity = weightRight.toFixed(3);
+    // Apply opacities to video layers
+    if (vidUp) vidUp.style.opacity = weightUp.toFixed(3);
+    if (vidDown) vidDown.style.opacity = weightDown.toFixed(3);
+    if (vidLeft) vidLeft.style.opacity = weightLeft.toFixed(3);
+    if (vidRight) vidRight.style.opacity = weightRight.toFixed(3);
 
-    requestAnimationFrame(updateEyes);
+    requestAnimationFrame(updateVideos);
   }
 
-  requestAnimationFrame(updateEyes);
+  requestAnimationFrame(updateVideos);
 }
 
 /* ==========================================================================
-   3. Dreamy Ambient Star Sparkles Overlay Canvas
+   2. Dreamy Ambient Star Sparkles Overlay Canvas
    ========================================================================== */
 function initAmbientSparkles() {
   const canvas = document.getElementById('ambient-sparkles');
@@ -194,7 +139,7 @@ function initAmbientSparkles() {
   const ctx = canvas.getContext('2d');
   let width, height;
 
-  const SPARKLES_COUNT = 35;
+  const SPARKLES_COUNT = 30;
   const sparkles = [];
 
   function resize() {
@@ -211,7 +156,7 @@ function initAmbientSparkles() {
         y: Math.random() * height,
         radius: Math.random() * 2 + 0.8,
         vx: (Math.random() - 0.5) * 0.25,
-        vy: -Math.random() * 0.35 - 0.1, // Float upward gently
+        vy: -Math.random() * 0.3 - 0.08,
         baseAlpha: Math.random() * 0.5 + 0.2,
         twinkleSpeed: Math.random() * 0.03 + 0.01,
         phase: Math.random() * Math.PI * 2,
@@ -253,7 +198,7 @@ function initAmbientSparkles() {
 }
 
 /* ==========================================================================
-   4. Modals & Interactive Navigation
+   3. Modals & Interactive Navigation
    ========================================================================== */
 function initModalsAndNav() {
   const modals = {
@@ -339,7 +284,7 @@ function initModalsAndNav() {
 }
 
 /* ==========================================================================
-   5. Custom Cursor Glow
+   4. Custom Cursor Glow
    ========================================================================== */
 function initCursorGlow() {
   const glow = document.getElementById('cursor-glow');

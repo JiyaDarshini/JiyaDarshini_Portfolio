@@ -15,25 +15,53 @@
 </head>
 <body>
 
-  <!-- Full-Bleed Background Illustrated Stage with Merged Interactive Eyes -->
+  <!-- Full-Bleed Merged Video & Artwork Background Stage -->
   <div class="hero-bg-stage" id="hero-bg-stage" aria-hidden="true">
-    <!-- Base Portrait Artwork (Full Background Image) -->
+    <!-- Static Base Center Image -->
     <img 
       src="assets/portrait_base.jpg" 
       alt="" 
-      class="hero-bg-img" 
+      class="hero-bg-media base-media" 
       id="hero-bg-img"
       loading="eager"
     >
 
-    <!-- Merged Interactive Eye Overlays (Aligned to the Girl's Face) -->
-    <div class="eye-overlay-container" id="eye-container">
-      <img src="assets/eye_center.png" class="eye-layer eye-center" id="eye-center" alt="">
-      <img src="assets/eye_up.png" class="eye-layer eye-up" id="eye-up" alt="">
-      <img src="assets/eye_down.png" class="eye-layer eye-down" id="eye-down" alt="">
-      <img src="assets/eye_left.png" class="eye-layer eye-left" id="eye-left" alt="">
-      <img src="assets/eye_right.png" class="eye-layer eye-right" id="eye-right" alt="">
-    </div>
+    <!-- Actual Directional Videos Layered & Merged Directly in Background -->
+    <video 
+      src="Up.mp4" 
+      class="hero-bg-media video-layer" 
+      id="vid-up" 
+      muted 
+      playsinline 
+      preload="auto"
+    ></video>
+
+    <video 
+      src="down.mp4" 
+      class="hero-bg-media video-layer" 
+      id="vid-down" 
+      muted 
+      playsinline 
+      preload="auto"
+    ></video>
+
+    <video 
+      src="left.mp4" 
+      class="hero-bg-media video-layer" 
+      id="vid-left" 
+      muted 
+      playsinline 
+      preload="auto"
+    ></video>
+
+    <video 
+      src="right.mp4" 
+      class="hero-bg-media video-layer" 
+      id="vid-right" 
+      muted 
+      playsinline 
+      preload="auto"
+    ></video>
 
     <!-- Dreamy Ambient Floating Sparkles Overlay Canvas -->
     <canvas id="ambient-sparkles" class="ambient-sparkles-canvas"></canvas>
@@ -86,7 +114,7 @@
   <main class="hero-stage" id="home">
     <div class="hero-container">
       
-      <!-- Left Content Column Overlaying the Background Image -->
+      <!-- Left Content Column Overlaying the Background Image/Videos -->
       <section class="hero-content">
         <div class="badge-pill">
           <span class="status-indicator"></span>
@@ -138,15 +166,15 @@
           </div>
           <div class="stat-divider"></div>
           <div class="stat-card">
-            <span class="stat-number">Interactive UI</span>
-            <span class="stat-label">Eye-Tracking</span>
+            <span class="stat-number">Interactive Video</span>
+            <span class="stat-label">Cursor Responsive</span>
           </div>
         </div>
 
-        <!-- Interactive eye tracking status badge -->
+        <!-- Interactive video tracking status badge -->
         <div class="interactive-hint">
           <span class="pulse-dot"></span>
-          <span>Move your cursor to interact with the portrait's gaze</span>
+          <span>Move cursor: Up • Down • Left • Right to control the portrait video</span>
         </div>
       </section>
 
