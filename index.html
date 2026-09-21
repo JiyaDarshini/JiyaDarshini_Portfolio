@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jiya Darshini | Portfolio</title>
+  <meta name="description" content="Portfolio of Jiya Darshini - Computer Science & Business Systems Student, Developer, Problem Solver, Creative Thinker.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Full-Bleed Background Illustrated Stage with Merged Interactive Eyes -->
+  <div class="hero-bg-stage" id="hero-bg-stage" aria-hidden="true">
+    <!-- Base Portrait Artwork (Full Background Image) -->
+    <img 
+      src="assets/portrait_base.jpg" 
+      alt="" 
+      class="hero-bg-img" 
+      id="hero-bg-img"
+      loading="eager"
+    >
+
+    <!-- Merged Interactive Eye Overlays (Aligned to the Girl's Face) -->
+    <div class="eye-overlay-container" id="eye-container">
+      <img src="assets/eye_center.png" class="eye-layer eye-center" id="eye-center" alt="">
+      <img src="assets/eye_up.png" class="eye-layer eye-up" id="eye-up" alt="">
+      <img src="assets/eye_down.png" class="eye-layer eye-down" id="eye-down" alt="">
+      <img src="assets/eye_left.png" class="eye-layer eye-left" id="eye-left" alt="">
+      <img src="assets/eye_right.png" class="eye-layer eye-right" id="eye-right" alt="">
+    </div>
+
+    <!-- Dreamy Ambient Floating Sparkles Overlay Canvas -->
+    <canvas id="ambient-sparkles" class="ambient-sparkles-canvas"></canvas>
+
+    <!-- Subtle Vignette to Ensure Left Text Contrast -->
+    <div class="hero-gradient-overlay"></div>
+  </div>
+
+  <!-- Header Navigation -->
+  <header class="site-header">
+    <nav class="nav-container">
+      <a href="#home" class="brand-logo" id="brand-link">
+        <span class="logo-symbol">✦</span>
+        <span class="logo-text">Jiya<span class="accent-dot">.</span></span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#home" class="nav-link active" data-nav="home">Home</a></li>
+        <li><a href="#about" class="nav-link" data-nav="about">About</a></li>
+        <li><a href="#skills" class="nav-link" data-nav="skills">Skills</a></li>
+        <li><a href="#projects" class="nav-link" data-nav="projects">Projects</a></li>
+        <li><a href="#contact" class="nav-link" data-nav="contact">Contact</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <a href="#contact" class="btn btn-sm btn-glass" id="nav-contact-btn">Let's Talk</a>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Toggle Navigation Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer" id="mobile-drawer">
+    <ul class="mobile-nav-links">
+      <li><a href="#home" class="mobile-nav-link" data-nav="home">Home</a></li>
+      <li><a href="#about" class="mobile-nav-link" data-nav="about">About</a></li>
+      <li><a href="#skills" class="mobile-nav-link" data-nav="skills">Skills</a></li>
+      <li><a href="#projects" class="mobile-nav-link" data-nav="projects">Projects</a></li>
+      <li><a href="#contact" class="mobile-nav-link" data-nav="contact">Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- Main Hero Stage with Overlaying Content -->
+  <main class="hero-stage" id="home">
+    <div class="hero-container">
+      
+      <!-- Left Content Column Overlaying the Background Image -->
+      <section class="hero-content">
+        <div class="badge-pill">
+          <span class="status-indicator"></span>
+          <span>Computer Science &amp; Business Systems</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="greeting">Hi, I'm</span>
+          <span class="name-highlight">Jiya Darshini</span>
+        </h1>
+
+        <h2 class="hero-subtitle">
+          Developer • Problem Solver • Creative Thinker
+        </h2>
+
+        <p class="hero-description">
+          Building intelligent digital solutions at the intersection of robust computer engineering and strategic business management.
+        </p>
+
+        <!-- Action CTA Buttons -->
+        <div class="hero-actions">
+          <button class="btn btn-primary" id="btn-view-projects">
+            <span>View Projects</span>
+            <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+          
+          <button class="btn btn-outline" id="btn-contact-me">
+            <span>Contact Me</span>
+            <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Quick Info Highlights -->
+        <div class="quick-stats">
+          <div class="stat-card">
+            <span class="stat-number">CS &amp; BS</span>
+            <span class="stat-label">Specialization</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-card">
+            <span class="stat-number">Full-Stack &amp; AI</span>
+            <span class="stat-label">Core Focus</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-card">
+            <span class="stat-number">Interactive UI</span>
+            <span class="stat-label">Eye-Tracking</span>
+          </div>
+        </div>
+
+        <!-- Interactive eye tracking status badge -->
+        <div class="interactive-hint">
+          <span class="pulse-dot"></span>
+          <span>Move your cursor to interact with the portrait's gaze</span>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Interactive Project Modal -->
+  <div class="modal-overlay" id="projects-modal" role="dialog" aria-modal="true" aria-labelledby="projects-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="modal-eyebrow">Portfolio Showcase</span>
+          <h3 class="modal-title" id="projects-title">Featured Projects</h3>
+        </div>
+        <button class="modal-close-btn" data-close-modal aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="projects-grid">
+          
+          <article class="project-card">
+            <div class="project-tags">
+              <span class="tag">AI / Machine Learning</span>
+              <span class="tag">Python</span>
+            </div>
+            <h4 class="project-name">Intelligent Civic Complaint Management</h4>
+            <p class="project-desc">A smart civic grievance dispatch system that categorizes, prioritizes, and routes citizen complaints using NLP and automated workflows.</p>
+            <div class="project-footer">
+              <span class="tech-stack">FastAPI • ML • Python</span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-tags">
+              <span class="tag">Web Application</span>
+              <span class="tag">Full-Stack</span>
+            </div>
+            <h4 class="project-name">Business Systems Analytics Dashboard</h4>
+            <p class="project-desc">Interactive dashboard blending data analytics with business KPIs, forecasting metrics, and real-time visualization.</p>
+            <div class="project-footer">
+              <span class="tech-stack">JavaScript • DataViz • CSS3</span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-tags">
+              <span class="tag">Creative Tech</span>
+              <span class="tag">Interactive UI</span>
+            </div>
+            <h4 class="project-name">Interactive Eye-Tracking Portfolio Stage</h4>
+            <p class="project-desc">Real-time vector interpolation engine seamlessly animating gaze direction across multi-state illustrated character layers.</p>
+            <div class="project-footer">
+              <span class="tech-stack">Canvas • Vanilla JS • Math</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Skills Modal -->
+  <div class="modal-overlay" id="skills-modal" role="dialog" aria-modal="true" aria-labelledby="skills-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="modal-eyebrow">Capabilities</span>
+          <h3 class="modal-title" id="skills-title">Skills &amp; Technologies</h3>
+        </div>
+        <button class="modal-close-btn" data-close-modal aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="skills-categories">
+          
+          <div class="skill-group">
+            <h4>Programming &amp; Core</h4>
+            <div class="skill-tags">
+              <span class="skill-pill">Python</span>
+              <span class="skill-pill">C++</span>
+              <span class="skill-pill">Java</span>
+              <span class="skill-pill">JavaScript (ES6+)</span>
+              <span class="skill-pill">HTML5 / CSS3</span>
+              <span class="skill-pill">Data Structures &amp; Algorithms</span>
+            </div>
+          </div>
+
+          <div class="skill-group">
+            <h4>Business Systems &amp; Analytics</h4>
+            <div class="skill-tags">
+              <span class="skill-pill">Business Intelligence</span>
+              <span class="skill-pill">System Analysis</span>
+              <span class="skill-pill">Database Management (SQL)</span>
+              <span class="skill-pill">Data Visualization</span>
+              <span class="skill-pill">Process Optimization</span>
+            </div>
+          </div>
+
+          <div class="skill-group">
+            <h4>Tools &amp; Frameworks</h4>
+            <div class="skill-tags">
+              <span class="skill-pill">Git &amp; GitHub</span>
+              <span class="skill-pill">FastAPI</span>
+              <span class="skill-pill">Pandas / NumPy</span>
+              <span class="skill-pill">Figma / UI Design</span>
+              <span class="skill-pill">VS Code</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive About Modal -->
+  <div class="modal-overlay" id="about-modal" role="dialog" aria-modal="true" aria-labelledby="about-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="modal-eyebrow">Background</span>
+          <h3 class="modal-title" id="about-title">About Jiya Darshini</h3>
+        </div>
+        <button class="modal-close-btn" data-close-modal aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="about-content">
+          <p class="about-lead">
+            I am a passionate <strong>Computer Science &amp; Business Systems</strong> student driven by building software that solves tangible human and organizational challenges.
+          </p>
+          <p>
+            My education merges deep technical computer science foundations—software engineering, algorithms, and data modeling—with strategic business acumen, product development, and management.
+          </p>
+          <div class="about-highlights">
+            <div class="about-item">
+              <div class="about-icon">💡</div>
+              <div>
+                <h5>Problem Solver</h5>
+                <p>Translating complex requirements into intuitive, elegant, and efficient technical implementations.</p>
+              </div>
+            </div>
+            <div class="about-item">
+              <div class="about-icon">🚀</div>
+              <div>
+                <h5>Continuous Learner</h5>
+                <p>Constantly exploring modern architectures, web technologies, and AI-assisted workflows.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Contact Modal -->
+  <div class="modal-overlay" id="contact-modal" role="dialog" aria-modal="true" aria-labelledby="contact-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="modal-eyebrow">Get In Touch</span>
+          <h3 class="modal-title" id="contact-title">Let's Connect</h3>
+        </div>
+        <button class="modal-close-btn" data-close-modal aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form class="contact-form" id="contact-form" onsubmit="event.preventDefault(); alert('Thank you for reaching out! Your message has been received.'); document.getElementById('contact-modal').classList.remove('active');">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="contact-name">Your Name</label>
+              <input type="text" id="contact-name" class="form-input" placeholder="e.g. Alex Smith" required>
+            </div>
+            <div class="form-group">
+              <label for="contact-email">Your Email</label>
+              <input type="email" id="contact-email" class="form-input" placeholder="alex@example.com" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="contact-subject">Subject</label>
+            <input type="text" id="contact-subject" class="form-input" placeholder="Internship, Project Inquiry, or Collaboration">
+          </div>
+          <div class="form-group">
+            <label for="contact-message">Message</label>
+            <textarea id="contact-message" class="form-textarea" rows="4" placeholder="Hi Jiya, I'd love to connect with you regarding..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Cursor Glow Follower -->
+  <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>
