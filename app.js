@@ -1,18 +1,61 @@
 /**
  * Portfolio Logic - Jiya Darshini
- * 1. Dreamy Ambient Star Sparkles Overlay Canvas
- * 2. Modal Navigation & Interactive UI Controls
- * 3. Custom Cursor Glow
+ * 1. Seamless Visual Greeting Animation Controller
+ * 2. Dreamy Ambient Star Sparkles Overlay Canvas
+ * 3. Modal Navigation & Interactive UI Controls
+ * 4. Custom Cursor Glow
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initGreetingAnimation();
   initAmbientSparkles();
   initModalsAndNav();
   initCursorGlow();
 });
 
 /* ==========================================================================
-   1. Dreamy Ambient Star Sparkles Overlay Canvas
+   1. Seamless Visual Greeting Animation
+   ========================================================================== */
+function initGreetingAnimation() {
+  const greetingVideo = document.getElementById('greeting-video');
+  if (!greetingVideo) return;
+
+  greetingVideo.muted = true;
+  greetingVideo.playsInline = true;
+
+  function onGreetingComplete() {
+    // Smoothly fade out the greeting video to reveal the exact static base image
+    greetingVideo.classList.add('fade-out');
+  }
+
+  // Handle video end
+  greetingVideo.addEventListener('ended', onGreetingComplete);
+
+  // Fallback timer in case video end event is delayed
+  setTimeout(() => {
+    onGreetingComplete();
+  }, 4200);
+
+  // Ensure autoplay starts
+  const playPromise = greetingVideo.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {
+      // Browser blocked autoplay, play on first user interaction
+      const startOnInteraction = () => {
+        greetingVideo.play().catch(() => {});
+        window.removeEventListener('click', startOnInteraction);
+        window.removeEventListener('mousemove', startOnInteraction);
+        window.removeEventListener('touchstart', startOnInteraction);
+      };
+      window.addEventListener('click', startOnInteraction, { once: true });
+      window.addEventListener('mousemove', startOnInteraction, { once: true });
+      window.addEventListener('touchstart', startOnInteraction, { once: true });
+    });
+  }
+}
+
+/* ==========================================================================
+   2. Dreamy Ambient Star Sparkles Overlay Canvas
    ========================================================================== */
 function initAmbientSparkles() {
   const canvas = document.getElementById('ambient-sparkles');
@@ -80,7 +123,7 @@ function initAmbientSparkles() {
 }
 
 /* ==========================================================================
-   2. Modals & Interactive Navigation
+   3. Modals & Interactive Navigation
    ========================================================================== */
 function initModalsAndNav() {
   const modals = {
@@ -166,7 +209,7 @@ function initModalsAndNav() {
 }
 
 /* ==========================================================================
-   3. Custom Cursor Glow
+   4. Custom Cursor Glow
    ========================================================================== */
 function initCursorGlow() {
   const glow = document.getElementById('cursor-glow');

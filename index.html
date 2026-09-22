@@ -15,16 +15,27 @@
 </head>
 <body>
 
-  <!-- Full-Bleed Illustrated Background Stage -->
+  <!-- Full-Bleed Background Stage (Greeting Video + Static Base) -->
   <div class="hero-bg-stage" id="hero-bg-stage" aria-hidden="true">
-    <!-- Single Full-Screen Background Image -->
+    <!-- Static Base Image (Visible after greeting finishes) -->
     <img 
       src="assets/portrait_base.jpg" 
-      alt="Jiya Darshini Portrait Background" 
+      alt="Jiya Darshini Background" 
       class="hero-bg-media base-media" 
       id="hero-bg-img"
       loading="eager"
     >
+
+    <!-- Visual Greeting Animation Video (Plays once on page load) -->
+    <video 
+      src="assets/greeting_wave.mp4" 
+      class="hero-bg-media greeting-video" 
+      id="greeting-video" 
+      muted 
+      playsinline 
+      preload="auto"
+      autoplay
+    ></video>
 
     <!-- Dreamy Ambient Floating Sparkles Overlay Canvas -->
     <canvas id="ambient-sparkles" class="ambient-sparkles-canvas"></canvas>
@@ -180,8 +191,8 @@
               <span class="tag">Creative Tech</span>
               <span class="tag">Interactive UI</span>
             </div>
-            <h4 class="project-name">Interactive Portfolio Stage</h4>
-            <p class="project-desc">A modern, responsive personal showcase featuring rich aesthetics, glassmorphism, and modal navigation.</p>
+            <h4 class="project-name">Visual Greeting &amp; Interactive Showcase</h4>
+            <p class="project-desc">A modern, responsive personal showcase featuring rich aesthetics, seamless greeting transitions, and modal navigation.</p>
             <div class="project-footer">
               <span class="tech-stack">Vanilla JS • HTML5 • CSS3</span>
             </div>

@@ -58,7 +58,7 @@ body {
 }
 
 /* ==========================================================================
-   Full-Bleed Illustrated Background with Merged Interactive Videos
+   Full-Bleed Illustrated Background with Visual Greeting Animation
    ========================================================================== */
 .hero-bg-stage {
   position: fixed;
@@ -89,11 +89,15 @@ body {
   z-index: 1;
 }
 
-.video-layer {
+.greeting-video {
   z-index: 2;
-  opacity: 0;
-  transition: opacity 0.06s linear;
+  opacity: 1;
+  transition: opacity 0.8s ease-in-out;
   will-change: opacity;
+}
+
+.greeting-video.fade-out {
+  opacity: 0;
 }
 
 /* Ambient Sparkles Canvas (Overlay on top of background) */
