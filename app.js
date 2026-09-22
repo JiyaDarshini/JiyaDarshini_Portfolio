@@ -1,136 +1,18 @@
 /**
- * Interactive Portfolio Logic - Jiya Darshini
- * 1. Interactive Video Background Crossfading & Scrubbing Engine (Up, Down, Left, Right)
- * 2. Dreamy Ambient Star Sparkles Overlay
- * 3. Modal Navigation & Interactive UI Controls
+ * Portfolio Logic - Jiya Darshini
+ * 1. Dreamy Ambient Star Sparkles Overlay Canvas
+ * 2. Modal Navigation & Interactive UI Controls
+ * 3. Custom Cursor Glow
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initVideoEngine();
   initAmbientSparkles();
   initModalsAndNav();
   initCursorGlow();
 });
 
 /* ==========================================================================
-   1. Interactive Video Crossfading & Scrubbing Engine
-   ========================================================================== */
-function initVideoEngine() {
-  const vidUp = document.getElementById('vid-up');
-  const vidDown = document.getElementById('vid-down');
-  const vidLeft = document.getElementById('vid-left');
-  const vidRight = document.getElementById('vid-right');
-
-  const videos = [
-    { el: vidUp, dir: 'up' },
-    { el: vidDown, dir: 'down' },
-    { el: vidLeft, dir: 'left' },
-    { el: vidRight, dir: 'right' }
-  ];
-
-  // Initialize and ensure playback for all videos
-  videos.forEach(({ el }) => {
-    if (!el) return;
-    el.muted = true;
-    el.loop = true;
-    el.playsInline = true;
-    
-    // Start playback when loaded
-    el.addEventListener('loadedmetadata', () => {
-      el.play().catch(() => {});
-    });
-    
-    // Try immediate play
-    el.play().catch(() => {
-      // Autoplay fallback on first user interaction
-      const playOnInteract = () => {
-        el.play().catch(() => {});
-        window.removeEventListener('click', playOnInteract);
-        window.removeEventListener('mousemove', playOnInteract);
-      };
-      window.addEventListener('click', playOnInteract, { once: true });
-      window.addEventListener('mousemove', playOnInteract, { once: true });
-    });
-  });
-
-  // Gaze target vectors (-1.0 to 1.0)
-  let targetX = 0;
-  let targetY = 0;
-  let currentX = 0;
-  let currentY = 0;
-
-  const LERP_FACTOR = 0.14; // Responsive smooth lerp
-  const DEADZONE_RADIUS = 0.05;
-
-  const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-
-  function onMouseMove(e) {
-    if (isTouchDevice) return;
-
-    const winW = window.innerWidth;
-    const winH = window.innerHeight;
-
-    // Face origin on right side (~70% X, ~35% Y)
-    const originX = winW * 0.70;
-    const originY = winH * 0.35;
-
-    // Normalized offset from face
-    let dx = (e.clientX - originX) / (winW * 0.45);
-    let dy = (e.clientY - originY) / (winH * 0.45);
-
-    // Clamp to range [-1.0, 1.0]
-    targetX = Math.max(-1.0, Math.min(1.0, dx));
-    targetY = Math.max(-1.0, Math.min(1.0, dy));
-  }
-
-  function onMouseLeave() {
-    targetX = 0;
-    targetY = 0;
-  }
-
-  window.addEventListener('mousemove', onMouseMove, { passive: true });
-  document.addEventListener('mouseleave', onMouseLeave);
-
-  // Render loop to smoothly crossfade directional video layers
-  function updateVideos() {
-    currentX += (targetX - currentX) * LERP_FACTOR;
-    currentY += (targetY - currentY) * LERP_FACTOR;
-
-    const dist = Math.sqrt(currentX * currentX + currentY * currentY);
-
-    let weightUp = 0;
-    let weightDown = 0;
-    let weightLeft = 0;
-    let weightRight = 0;
-
-    if (dist > DEADZONE_RADIUS) {
-      // Calculate directional weights
-      weightUp = currentY < 0 ? Math.min(1, Math.abs(currentY)) : 0;
-      weightDown = currentY > 0 ? Math.min(1, currentY) : 0;
-      weightLeft = currentX < 0 ? Math.min(1, Math.abs(currentX)) : 0;
-      weightRight = currentX > 0 ? Math.min(1, currentX) : 0;
-
-      // Soft non-linear curve for natural transition
-      weightUp = Math.pow(weightUp, 1.2);
-      weightDown = Math.pow(weightDown, 1.2);
-      weightLeft = Math.pow(weightLeft, 1.2);
-      weightRight = Math.pow(weightRight, 1.2);
-    }
-
-    // Apply opacities to video layers
-    if (vidUp) vidUp.style.opacity = weightUp.toFixed(3);
-    if (vidDown) vidDown.style.opacity = weightDown.toFixed(3);
-    if (vidLeft) vidLeft.style.opacity = weightLeft.toFixed(3);
-    if (vidRight) vidRight.style.opacity = weightRight.toFixed(3);
-
-    requestAnimationFrame(updateVideos);
-  }
-
-  requestAnimationFrame(updateVideos);
-}
-
-/* ==========================================================================
-   2. Dreamy Ambient Star Sparkles Overlay Canvas
+   1. Dreamy Ambient Star Sparkles Overlay Canvas
    ========================================================================== */
 function initAmbientSparkles() {
   const canvas = document.getElementById('ambient-sparkles');
@@ -139,7 +21,7 @@ function initAmbientSparkles() {
   const ctx = canvas.getContext('2d');
   let width, height;
 
-  const SPARKLES_COUNT = 30;
+  const SPARKLES_COUNT = 35;
   const sparkles = [];
 
   function resize() {
@@ -198,7 +80,7 @@ function initAmbientSparkles() {
 }
 
 /* ==========================================================================
-   3. Modals & Interactive Navigation
+   2. Modals & Interactive Navigation
    ========================================================================== */
 function initModalsAndNav() {
   const modals = {
@@ -284,7 +166,7 @@ function initModalsAndNav() {
 }
 
 /* ==========================================================================
-   4. Custom Cursor Glow
+   3. Custom Cursor Glow
    ========================================================================== */
 function initCursorGlow() {
   const glow = document.getElementById('cursor-glow');
